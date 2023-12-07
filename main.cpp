@@ -1,27 +1,47 @@
 #include <iostream>
-#include <dirent.h>
-#include<sys/stat.h>
+#include <string>
+#include <cstdio>
+#include <cstdlib>
 using namespace std;
-int main() {
-    const char* directoryPath = "C:\\Users\\Jereniah\\3D Objects\\Projects";
-    DIR* dir = opendir(directoryPath);
+int main()
+{
+    const string vscodeCommand = "code";
+    const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
+    // const string listFilesCommand = ("fd  --type f --type d --color=never . " + directory + "| fzf --print-query");
+     const string listFilesCommand = "fd --type f --type d --color=never . | fzf --print-query";
+    FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
+    cout << listFilePipe << endl;
+    if (!listFilePipe)
+    {
+        cout << "Failed to open pipe" << endl;
+        return 1;
+    }
+    char buffer[128];
+    string selectedPath;
+    while (fgets(buffer, 128, listFilePipe) != NULL)
+    {
+        selectedPath += buffer;
+    }
+    if (_pclose(listFilePipe) != 0)
+    {
+        cout << "Failed to close pipe" << endl;
+        return 1;
+    }
+    // selectedPath.erase(remove(selectedPath.c_str().begin(), selectedPath.c_str().end(), '\n'), selectedPath.end());
+    if (!selectedPath.empty())
+    {
+        string command = vscodeCommand + " " + selectedPath;
+        int result = system(command.c_str());
 
-    if (dir) {
-        cout << "Files in directory " << directoryPath << ":\n";
-
-        dirent* entry;
-        while ((entry = readdir(dir)) != nullptr) {
-            string filePath = string(directoryPath) + "/" + entry->d_name;
-            struct stat fileStat;
-            // Print only regular files (not directories)
-            if(stat(filePath.c_str(), &fileStat) == 0 ) {
-                cout << entry->d_name << "\n";
-            }
+        if (result != 0)
+        {
+            cout << "Failed to open vscode" << endl;
+            return 1;
         }
-
-        closedir(dir);
-    } else {
-        std::cerr << "Error opening directory.\n";
+    }
+    else
+    {
+        cerr << "No file selected" << endl;
     }
 
     return 0;
