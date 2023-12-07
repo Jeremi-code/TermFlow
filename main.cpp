@@ -7,8 +7,10 @@ int main()
 {
     const string vscodeCommand = "code";
     const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
-    // const string listFilesCommand = ("fd  --type f --type d --color=never . " + directory + "| fzf --print-query");
-     const string listFilesCommand = "fd --type f --type d --color=never . | fzf --print-query";
+    const string changeDirectory = "cd" + directory;
+    int directoryResult = system(changeDirectory.c_str());
+        // const string listFilesCommand = ("fd  --type f --type d --color=never . " + directory + "| fzf --print-query");
+    const string listFilesCommand = "fd --type f --type d --color=never . | fzf --print-query";
     FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
     cout << listFilePipe << endl;
     if (!listFilePipe)
