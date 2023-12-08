@@ -17,7 +17,32 @@ int changeDirectory(string directory)
     }
     return 0;
 }
+void pipeRead(FILE* listFilePipe, string& selectedPath)
+{
+    char buffer[128];
+    while (fgets(buffer, 128, listFilePipe) != NULL)
+    {
+        selectedPath += buffer;
+    }
+}
+int openFile(string selectedPath)
+{
+    if (!selectedPath.empty()) {
 
+    string command = vscodeCommand + " " + selectedPath;
+    int result = system(command.c_str());
+
+    if (result != 0)
+    {
+        cout << "Failed to open vscode" << endl;
+        return 1;
+    }
+    return 0;
+    } else {
+        cerr << "No file selected" << endl;
+        return 1;
+    }
+}
 
 
 int main(int argc, char **argv)
@@ -35,35 +60,15 @@ int main(int argc, char **argv)
                 cout << "Failed to open pipe" << endl;
                 return 1;
             }
-
-            char buffer[128];
             string selectedPath;
-            while (fgets(buffer, 128, listFilePipe) != NULL)
-            {
-                selectedPath += buffer;
-            }
+            pipeRead(listFilePipe, selectedPath);
             if (_pclose(listFilePipe) != 0)
             {
                 cout << "Failed to close pipe" << endl;
                 return 1;
             }
             // selectedPath.erase(remove(selectedPath.c_str().begin(), selectedPath.c_str().end(), '\n'), selectedPath.end());
-            if (!selectedPath.empty())
-            {
-                string command = vscodeCommand + " " + selectedPath;
-                int result = system(command.c_str());
-
-                if (result != 0)
-                {
-                    cout << "Failed to open vscode" << endl;
-                    return 1;
-                }
-            }
-            else
-            {
-                cerr << "No file selected" << endl;
-            }
-        }
+               }
     }
     return 0;
 }
