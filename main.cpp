@@ -15,7 +15,7 @@ int main()
         return 1;
     }
     // const string listFilesCommand = ("fd  --type f --type d --color=never . " + directory + "| fzf --print-query");
-    const string listFilesCommand = "fd --type f --type d --color=never . | fzf --print-query";
+    const string listFilesCommand = "fd --type d --color=never . | fzf --print-query";
     FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
     cout << listFilePipe << endl;
     if (!listFilePipe)
