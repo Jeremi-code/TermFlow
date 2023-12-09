@@ -26,8 +26,6 @@ int openFile(string selectedPath)
     if (!selectedPath.empty())
     {
         string fullPath  = directory + "\\" + selectedPath;
-        cout<<fullPath<<endl;
-
         string command = vscodeCommand + " \"" + fullPath + "\"";
         int result = system(command.c_str());
         return result;
