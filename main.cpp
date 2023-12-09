@@ -44,7 +44,6 @@ int main(int argc, char **argv)
         {
             const string listFilesCommand = "fd --type d --color=never . | fzf ";
             FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
-            // const string listFilesCommand = ("fd  --type f --type d --color=never . " + directory + "| fzf --print-query");
             if (!listFilePipe)
             {
                 cout << "Failed to open pipe" << endl;
@@ -52,7 +51,6 @@ int main(int argc, char **argv)
             }
             string selectedPath;
             pipeRead(listFilePipe, selectedPath);
-            // selectedPath.erase(remove(selectedPath.begin(), selectedPath.end(), '\n'), selectedPath.end());
             if (_pclose(listFilePipe) != 0)
             {
                 cout << "Failed to close pipe" << endl;
