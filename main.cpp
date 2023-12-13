@@ -50,9 +50,6 @@ int main(int argc, char *argv[])
 {
     if (argc == 1)
     {   
-        // int changeResult = changeDirectory(directory);
-        // if (changeResult == 0)
-        // {
             const string listFilesCommand = "fd --type d --color=never . | fzf ";
             FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
             char buffer[128];
@@ -71,7 +68,6 @@ int main(int argc, char *argv[])
                     return 1;
                 }
             }
-        // }
     }
     else if (argc == 2 && string(argv[1]) == "-r")
     {
