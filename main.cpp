@@ -13,7 +13,6 @@ const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
 
-
 int changeDirectory(string directory)
 {
     int changeResult = _chdir(directory.c_str());
@@ -27,25 +26,26 @@ void pipeRead(FILE *listFilePipe, string &selectedPath)
         buffer[strcspn(buffer, "\n")] = '\0';
         selectedPath += buffer;
     }
-    cout<<selectedPath;
+    cout << selectedPath;
 }
 
-int openFile(string selectedPath )
+int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
     {
         string fullPath = directory + "\\" + selectedPath;
-        
+
         string command = vscodeCommand + " \"" + fullPath + "\"";
         cout << selectedPath << endl;
         ofstream writeFile(recentPath, ios::app);
         if (writeFile.is_open())
         {
-            if(!writeFile) {
-                cout<<strerror(errno);
+            if (!writeFile)
+            {
+                cout << strerror(errno);
                 return 1;
             }
-            writeFile<<selectedPath;
+            writeFile << selectedPath;
             writeFile.flush();
             writeFile.close();
         }
@@ -59,21 +59,21 @@ int openFile(string selectedPath )
 int main(int argc, char *argv[])
 {
     if (argc == 1)
-    {   
-            const string listFilesCommand = "fd --type d --color=never . | fzf ";
-            FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
-            string selectedPath;
-            pipeRead(listFilePipe, selectedPath);
-            int closeResult = _pclose(listFilePipe);
-            if (closeResult != 0)
-            {
-                return -1;
-            }
-            int result = openFile(selectedPath);
-            if (result != 0)
-            {
-                return 1;
-            
+    {
+        const string listFilesCommand = "fd --type d --color=never . | fzf ";
+        FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
+        string selectedPath;
+        pipeRead(listFilePipe, selectedPath);
+        int closeResult = _pclose(listFilePipe);
+        if (closeResult != 0)
+        {
+            return -1;
+        }
+        int result = openFile(selectedPath);
+        if (result != 0)
+        {
+            return 1;
+        }
     }
     else if (argc == 2 && string(argv[1]) == "-r")
     {
@@ -87,23 +87,21 @@ int main(int argc, char *argv[])
             }
             readFile.close();
         }
-                const string listFilesCommand = "fzf < recentFile.txt";
-                FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
-                string selectedPath;
-                pipeRead(fzfPipe, selectedPath);
-                int closeResult = _pclose(fzfPipe);
-                if (closeResult != 0)
-                {
-                    return -1;
-                }
-                int result = openFile(selectedPath);
-                if (result != 0)
-                {
-                    return 1;
-                }
-                
+        const string listFilesCommand = "fzf < recentFile.txt";
+        FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
+        string selectedPath;
+        pipeRead(fzfPipe, selectedPath);
+        int closeResult = _pclose(fzfPipe);
+        if (closeResult != 0)
+        {
+            return -1;
         }
-    
+        int result = openFile(selectedPath);
+        if (result != 0)
+        {
+            return 1;
+        }
+    }
 
     return 0;
 }
