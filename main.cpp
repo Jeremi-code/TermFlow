@@ -7,8 +7,8 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-// string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
-string recentPath = "File.txt";
+string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
+// string recentPath = "File.txt";
 const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
@@ -26,7 +26,6 @@ void pipeRead(FILE *listFilePipe, string &selectedPath)
         buffer[strcspn(buffer, "\n")] = '\0';
         selectedPath += buffer;
     }
-    cout << selectedPath;
 }
 
 int openFile(string selectedPath)
@@ -36,7 +35,6 @@ int openFile(string selectedPath)
         string fullPath = directory + "\\" + selectedPath;
 
         string command = vscodeCommand + " \"" + fullPath + "\"";
-        cout << selectedPath << endl;
         ofstream writeFile(recentPath, ios::app);
         if (writeFile.is_open())
         {
@@ -45,7 +43,7 @@ int openFile(string selectedPath)
                 cout << strerror(errno);
                 return 1;
             }
-            writeFile << selectedPath;
+            writeFile << selectedPath<<endl;
             writeFile.flush();
             writeFile.close();
         }
@@ -77,9 +75,10 @@ int main(int argc, char *argv[])
     }
     else if (argc == 2 && string(argv[1]) == "-r")
     {
-        ifstream readFile("recentFile.txt");
+        ifstream readFile(recentPath);
         if (readFile)
         {
+            cout<<"file exists";
             string line;
             while (getline(readFile, line))
             {
@@ -87,9 +86,9 @@ int main(int argc, char *argv[])
             }
             readFile.close();
         }
-        const string listFilesCommand = "fzf < recentFile.txt";
-        FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
         string selectedPath;
+        const string listFilesCommand = "fzf < \"Other Projects\\TermFlow\\recentFile.txt\" ";
+        FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
         pipeRead(fzfPipe, selectedPath);
         int closeResult = _pclose(fzfPipe);
         if (closeResult != 0)
