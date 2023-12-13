@@ -19,6 +19,16 @@ int changeDirectory(string directory)
     int changeResult = _chdir(directory.c_str());
     return changeResult;
 }
+void pipeRead(FILE *listFilePipe, string &selectedPath)
+{
+    char buffer[128];
+    while (fgets(buffer, 128, listFilePipe) != NULL)
+    {
+        buffer[strcspn(buffer, "\n")] = '\0';
+        selectedPath += buffer;
+    }
+    cout<<selectedPath;
+}
 
 int openFile(string selectedPath )
 {
@@ -52,22 +62,18 @@ int main(int argc, char *argv[])
     {   
             const string listFilesCommand = "fd --type d --color=never . | fzf ";
             FILE *listFilePipe = _popen(listFilesCommand.c_str(), "r");
-            char buffer[128];
-            if (fgets(buffer, sizeof(buffer), listFilePipe) != NULL)
+            string selectedPath;
+            pipeRead(listFilePipe, selectedPath);
+            int closeResult = _pclose(listFilePipe);
+            if (closeResult != 0)
             {
-                buffer[strcspn(buffer, "\n")] = '\0';
-                string selectedPath = buffer;
-                int closeResult = _pclose(listFilePipe);
-                if (closeResult != 0)
-                {
-                    return -1;
-                }
-                int result = openFile(selectedPath);
-                if (result != 0)
-                {
-                    return 1;
-                }
+                return -1;
             }
+            int result = openFile(selectedPath);
+            if (result != 0)
+            {
+                return 1;
+            
     }
     else if (argc == 2 && string(argv[1]) == "-r")
     {
@@ -83,26 +89,19 @@ int main(int argc, char *argv[])
         }
                 const string listFilesCommand = "fzf < recentFile.txt";
                 FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
-                char buffer[128];
-                if (fgets(buffer, sizeof(buffer), fzfPipe) != NULL)
+                string selectedPath;
+                pipeRead(fzfPipe, selectedPath);
+                int closeResult = _pclose(fzfPipe);
+                if (closeResult != 0)
                 {
-                    buffer[strcspn(buffer, "\n")] = '\0';
-                    string selectedPath = buffer;
-                    cout<<selectedPath;
-                    int closeResult = _pclose(fzfPipe);
-                    if (closeResult == -1)
-                    {
-                        cout<<"Error closing pipe"<<endl;
-                        return -1;
-                    }
-                    cout<<selectedPath<<endl;   
-                    int fileresult = openFile(selectedPath);
-                    if (fileresult != 0)
-                    {
-                        cout << "Error opening file in VS Code" << endl;
-                        return 1;
-                    }
+                    return -1;
                 }
+                int result = openFile(selectedPath);
+                if (result != 0)
+                {
+                    return 1;
+                }
+                
         }
     
 
