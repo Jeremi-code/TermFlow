@@ -51,6 +51,15 @@ void readRecentProject()
         }
     }
 }
+int vecLength()
+{
+    int count = 0;
+    for (const auto &filePath : filePaths)
+    {
+        count += 1;
+    }
+    return count;
+}
 int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
