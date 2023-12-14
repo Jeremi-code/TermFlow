@@ -13,11 +13,7 @@ string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
 const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
-int changeDirectory(string directory)
-{
-    int changeResult = _chdir(directory.c_str());
-    return changeResult;
-}
+
 void pipeRead(FILE *listFilePipe, string &selectedPath)
 {
     char buffer[128];
