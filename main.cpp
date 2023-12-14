@@ -22,11 +22,10 @@ void pipeRead(FILE *listFilePipe, string &selectedPath)
         selectedPath += buffer;
     }
 }
-void readRecentProject()
+void readRecentProjects()
 {
     ifstream readFile(recentPath, ios::in);
     string line;
-    string fakeLine;
     if (readFile.is_open())
     {
         if (readFile)
@@ -69,7 +68,7 @@ int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
     {
-        readRecentProject();
+        readRecentProjects();
         if (vecLength() == 10)
         {
             if (checkMembership(selectedPath) != -1)
