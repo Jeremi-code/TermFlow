@@ -60,6 +60,17 @@ int vecLength()
     }
     return count;
 }
+int checkMembership(string line)
+{
+    for (int i = 0; i < vecLength() ; i++)
+    {
+        if (filePaths[i] == line)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
 int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
