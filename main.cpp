@@ -35,13 +35,11 @@ void readRecentProject()
             int i = 0;
             while (!readFile.eof() && i <= 10)
             {
-                // readFile.peek() ==char_traits<char>::eof()
                 getline(readFile, line);
                 if (!line.empty())
                 {
                     filePaths.push_back(line);
                 }
-                // readFile>>line;
                 i++;
             }
             readFile.close();
@@ -75,19 +73,16 @@ int openFile(string selectedPath)
         readRecentProject();
         if (vecLength() == 10)
         {
-            cout << "donaruma";
             if (checkMembership(selectedPath) != -1)
             {
                 int index = checkMembership(selectedPath);
                 filePaths.erase(filePaths.begin() + index);
                 filePaths.push_back(selectedPath);
-                cout << "a";
             }
             else
             {
                 filePaths.erase(filePaths.begin());
                 filePaths.push_back(selectedPath);
-                cout << "b";
             }
         }
         else
@@ -101,7 +96,6 @@ int openFile(string selectedPath)
             else
             {
                 filePaths.push_back(selectedPath);
-                cout << filePaths[0];
             }
         }
         string fullPath = directory + "\\" + selectedPath;
