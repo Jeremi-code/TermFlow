@@ -6,13 +6,13 @@
 #include <direct.h>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 using namespace std;
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
 // string recentPath = "File.txt";
 const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
-
 int changeDirectory(string directory)
 {
     int changeResult = _chdir(directory.c_str());
@@ -27,25 +27,79 @@ void pipeRead(FILE *listFilePipe, string &selectedPath)
         selectedPath += buffer;
     }
 }
-
+void readRecentProject()
+{
+    ifstream readFile(recentPath, ios::in);
+    string line;
+    string fakeLine;
+    if (readFile.is_open())
+    {
+        if (readFile)
+        {
+            int i = 0;
+            while (!readFile.eof() && i <= 10)
+            {
+                // readFile.peek() ==char_traits<char>::eof() 
+                getline(readFile, line);
+                if (!line.empty()) {
+                    filePaths.push_back(line);
+                }
+                // readFile>>line;
+                i++;
+            }
+            readFile.close();
+        }
+    }
+}
 int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
-    {
+    {   
+        readRecentProject();
+        if (vecLength() == 10)
+        {
+            cout << "donaruma";
+            if (checkMembership(selectedPath) != -1)
+            {
+                int index = checkMembership(selectedPath);
+                filePaths.erase(filePaths.begin() + index);
+                filePaths.push_back(selectedPath);
+                cout<<"a";
+            }
+            else
+            {
+                filePaths.erase(filePaths.begin());
+                filePaths.push_back(selectedPath);
+                cout<<"b";
+            }
+        }
+        else
+        {
+            if (checkMembership(selectedPath) != -1)
+            {
+                int index = checkMembership(selectedPath);
+                filePaths.erase(filePaths.begin() + index);
+                filePaths.push_back(selectedPath);
+            }
+            else
+            {
+                filePaths.push_back(selectedPath);
+                cout<<filePaths[0];
+            }
+        }
         string fullPath = directory + "\\" + selectedPath;
 
         string command = vscodeCommand + " \"" + fullPath + "\"";
-        ofstream writeFile(recentPath, ios::app);
+        ofstream writeFile;
+        writeFile.open(recentPath,ios::out);
         if (writeFile.is_open())
         {
-            if (!writeFile)
+            for (const auto &filePath : filePaths)
             {
-                cout << strerror(errno);
-                return 1;
+                if (!filePath.empty()) {
+                writeFile << filePath + "\n";
+                }
             }
-            writeFile << selectedPath<<endl;
-            writeFile.flush();
-            writeFile.close();
         }
 
         int result = system(command.c_str());
@@ -75,17 +129,6 @@ int main(int argc, char *argv[])
     }
     else if (argc == 2 && string(argv[1]) == "-r")
     {
-        ifstream readFile(recentPath);
-        if (readFile)
-        {
-            cout<<"file exists";
-            string line;
-            while (getline(readFile, line))
-            {
-                filePaths.push_back(line);
-            }
-            readFile.close();
-        }
         string selectedPath;
         const string listFilesCommand = "fzf < \"Other Projects\\TermFlow\\recentFile.txt\" ";
         FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
