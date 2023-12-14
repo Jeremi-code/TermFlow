@@ -76,7 +76,7 @@ int checkMembership(string line)
     }
     return -1;
 }
-void insertFilePaths()
+void insertFilePaths(string selectedPath)
 {
     if (vecLength() == 10)
     {
@@ -111,7 +111,7 @@ int openFile(string selectedPath)
     if (!selectedPath.empty())
     {
         readRecentProjects();
-        insertFilePaths();
+        insertFilePaths(selectedPath);
         string fullPath = directory + "\\" + selectedPath;
         const string vscodeCommand = "code";
         string command = vscodeCommand + " \"" + fullPath + "\"";
