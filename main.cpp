@@ -39,9 +39,10 @@ void readRecentProject()
             int i = 0;
             while (!readFile.eof() && i <= 10)
             {
-                // readFile.peek() ==char_traits<char>::eof() 
+                // readFile.peek() ==char_traits<char>::eof()
                 getline(readFile, line);
-                if (!line.empty()) {
+                if (!line.empty())
+                {
                     filePaths.push_back(line);
                 }
                 // readFile>>line;
@@ -62,7 +63,7 @@ int vecLength()
 }
 int checkMembership(string line)
 {
-    for (int i = 0; i < vecLength() ; i++)
+    for (int i = 0; i < vecLength(); i++)
     {
         if (filePaths[i] == line)
         {
@@ -74,7 +75,7 @@ int checkMembership(string line)
 int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
-    {   
+    {
         readRecentProject();
         if (vecLength() == 10)
         {
@@ -84,13 +85,13 @@ int openFile(string selectedPath)
                 int index = checkMembership(selectedPath);
                 filePaths.erase(filePaths.begin() + index);
                 filePaths.push_back(selectedPath);
-                cout<<"a";
+                cout << "a";
             }
             else
             {
                 filePaths.erase(filePaths.begin());
                 filePaths.push_back(selectedPath);
-                cout<<"b";
+                cout << "b";
             }
         }
         else
@@ -104,20 +105,21 @@ int openFile(string selectedPath)
             else
             {
                 filePaths.push_back(selectedPath);
-                cout<<filePaths[0];
+                cout << filePaths[0];
             }
         }
         string fullPath = directory + "\\" + selectedPath;
 
         string command = vscodeCommand + " \"" + fullPath + "\"";
         ofstream writeFile;
-        writeFile.open(recentPath,ios::out);
+        writeFile.open(recentPath, ios::out);
         if (writeFile.is_open())
         {
             for (const auto &filePath : filePaths)
             {
-                if (!filePath.empty()) {
-                writeFile << filePath + "\n";
+                if (!filePath.empty())
+                {
+                    writeFile << filePath + "\n";
                 }
             }
         }
