@@ -9,7 +9,6 @@
 #include <algorithm>
 using namespace std;
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
-// string recentPath = "File.txt";
 const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
