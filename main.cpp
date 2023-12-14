@@ -5,8 +5,6 @@
 #include <cstdlib>
 #include <direct.h>
 #include <fstream>
-#include <sstream>
-#include <algorithm>
 using namespace std;
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
 const string vscodeCommand = "code";
