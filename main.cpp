@@ -7,7 +7,6 @@
 #include <fstream>
 using namespace std;
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
-const string vscodeCommand = "code";
 const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
 vector<string> filePaths;
 
@@ -39,6 +38,21 @@ void readRecentProjects()
                 i++;
             }
             readFile.close();
+        }
+    }
+}
+void writeRecentProjects()
+{
+    ofstream writeFile;
+    writeFile.open(recentPath, ios::out);
+    if (writeFile.is_open())
+    {
+        for (const auto &filePath : filePaths)
+        {
+            if (!filePath.empty())
+            {
+                writeFile << filePath + "\n";
+            }
         }
     }
 }
@@ -95,21 +109,9 @@ int openFile(string selectedPath)
             }
         }
         string fullPath = directory + "\\" + selectedPath;
-
+        const string vscodeCommand = "code";
         string command = vscodeCommand + " \"" + fullPath + "\"";
-        ofstream writeFile;
-        writeFile.open(recentPath, ios::out);
-        if (writeFile.is_open())
-        {
-            for (const auto &filePath : filePaths)
-            {
-                if (!filePath.empty())
-                {
-                    writeFile << filePath + "\n";
-                }
-            }
-        }
-
+        writeRecentProjects();
         int result = system(command.c_str());
         return result;
     }
