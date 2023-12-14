@@ -76,38 +76,42 @@ int checkMembership(string line)
     }
     return -1;
 }
+void insertFilePaths()
+{
+    if (vecLength() == 10)
+    {
+        if (checkMembership(selectedPath) != -1)
+        {
+            int index = checkMembership(selectedPath);
+            filePaths.erase(filePaths.begin() + index);
+            filePaths.push_back(selectedPath);
+        }
+        else
+        {
+            filePaths.erase(filePaths.begin());
+            filePaths.push_back(selectedPath);
+        }
+    }
+    else
+    {
+        if (checkMembership(selectedPath) != -1)
+        {
+            int index = checkMembership(selectedPath);
+            filePaths.erase(filePaths.begin() + index);
+            filePaths.push_back(selectedPath);
+        }
+        else
+        {
+            filePaths.push_back(selectedPath);
+        }
+    }
+}
 int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
     {
         readRecentProjects();
-        if (vecLength() == 10)
-        {
-            if (checkMembership(selectedPath) != -1)
-            {
-                int index = checkMembership(selectedPath);
-                filePaths.erase(filePaths.begin() + index);
-                filePaths.push_back(selectedPath);
-            }
-            else
-            {
-                filePaths.erase(filePaths.begin());
-                filePaths.push_back(selectedPath);
-            }
-        }
-        else
-        {
-            if (checkMembership(selectedPath) != -1)
-            {
-                int index = checkMembership(selectedPath);
-                filePaths.erase(filePaths.begin() + index);
-                filePaths.push_back(selectedPath);
-            }
-            else
-            {
-                filePaths.push_back(selectedPath);
-            }
-        }
+        insertFilePaths();
         string fullPath = directory + "\\" + selectedPath;
         const string vscodeCommand = "code";
         string command = vscodeCommand + " \"" + fullPath + "\"";
