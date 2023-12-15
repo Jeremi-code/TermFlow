@@ -93,18 +93,18 @@ int checkMembership(string line)
 }
 void addToVector(int index, string selectedPath)
 {
-    if (index = -1)
+    if (index == -1)
     {
         filePaths.push_back(selectedPath);
     }
-    filePaths.erase(filePaths.begin + index);
+    filePaths.erase(filePaths.begin() + index);
     filePaths.push_back(selectedPath);
 }
 void insertFilePaths(string selectedPath)
 {
+    int index;
     if (vecLength() == 10)
     {
-        int index;
         if (checkMembership(selectedPath) != -1)
         {
             index = checkMembership(selectedPath);
