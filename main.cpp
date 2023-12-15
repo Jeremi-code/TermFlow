@@ -91,7 +91,12 @@ int checkMembership(string line)
     }
     return -1;
 }
-void addToVector (int index,string selectedPath) {
+void addToVector(int index, string selectedPath)
+{
+    if (index = -1)
+    {
+        filePaths.push_back(selectedPath);
+    }
     filePaths.erase(filePaths.begin + index);
     filePaths.push_back(selectedPath);
 }
@@ -99,27 +104,29 @@ void insertFilePaths(string selectedPath)
 {
     if (vecLength() == 10)
     {
+        int index;
         if (checkMembership(selectedPath) != -1)
         {
-            int index = checkMembership(selectedPath);
-            addToVector(index,selectedPath);
+            index = checkMembership(selectedPath);
+            addToVector(index, selectedPath);
         }
         else
         {
-            int index = 0;
-            addToVector(index,selectedPath);
+            index = 0;
+            addToVector(index, selectedPath);
         }
     }
     else
     {
         if (checkMembership(selectedPath) != -1)
         {
-            int index = checkMembership(selectedPath);
-            addToVector(index,selectedPath);
+            index = checkMembership(selectedPath);
+            addToVector(index, selectedPath);
         }
         else
         {
-            filePaths.push_back(selectedPath);
+            index = -1;
+            addToVector(index, selectedPath);
         }
     }
 }
