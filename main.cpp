@@ -5,7 +5,9 @@
 #include <cstdlib>
 #include <direct.h>
 #include <fstream>
+
 using namespace std;
+
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
 string directory;
 vector<string> filePaths;
