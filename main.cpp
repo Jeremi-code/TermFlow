@@ -7,7 +7,7 @@
 #include <fstream>
 using namespace std;
 string recentPath = "Other Projects\\TermFlow\\recentFile.txt";
-const string directory = "C:\\Users\\Jereniah\\3D Objects\\Projects";
+string directory;
 vector<string> filePaths;
 
 void pipeRead(FILE *listFilePipe, string &selectedPath)
@@ -17,6 +17,19 @@ void pipeRead(FILE *listFilePipe, string &selectedPath)
     {
         buffer[strcspn(buffer, "\n")] = '\0';
         selectedPath += buffer;
+    }
+}
+void getCurrentDirectory()
+{
+    char *buffer;
+    if ((buffer = _getcwd(NULL, 0)) == NULL)
+    {
+        perror("_getcwd error");
+    }
+    else
+    {
+        directory = string(buffer);
+        free(buffer);
     }
 }
 void readRecentProjects()
@@ -110,6 +123,7 @@ int openFile(string selectedPath)
 {
     if (!selectedPath.empty())
     {
+        getCurrentDirectory();
         readRecentProjects();
         insertFilePaths(selectedPath);
         string fullPath = directory + "\\" + selectedPath;
