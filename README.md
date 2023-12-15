@@ -18,11 +18,14 @@ This C++ project provides a simple terminal-based code launcher that integrates 
 
 1. C++ Standard Library
 2. fzf (needs to be installed separately)
+3. fzf can be installed from scoop (command line package manager ) 
 
 ## Instructions
 
-1. Run the executable without any arguments to interactively select a project using fzf.
-2. Use the -r flag to open a project from the recent projects list.
-3. Compile the source code using a C++ compiler.
-4. Make sure the fzf utility is installed on your system.
-5. Run the executable to launch projects interactively.
+1. Install scoop by using iwr -useb get.scoop.sh | iex command
+2. Install fzf from scoop using scoop install fzf 
+3. Run the executable without any arguments to interactively select a project using fzf.
+4. Use the -r flag to open a project from the recent projects list.
+5. Compile the source code using a C++ compiler.
+6. Make sure the fzf utility is installed on your system.
+7. Run the executable to launch projects interactively.
