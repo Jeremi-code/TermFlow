@@ -169,7 +169,8 @@ int main(int argc, char *argv[])
     else if (argc == 2 && string(argv[1]) == "-r")
     {
         string selectedPath;
-        const string listFilesCommand = "fzf < \"Other Projects\\TermFlow\\recentFile.txt\" ";
+        // const string listFilesCommand = "tac \"Other Projects\\TermFlow\\recentFile.txt\" ";
+        const string listFilesCommand = "powershell.exe -Command \"Get-Content 'Other Projects\\TermFlow\\recentFile.txt' | ForEach-Object { $_ } | Out-String | fzf\"";
         FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
         pipeRead(fzfPipe, selectedPath);
         int closeResult = _pclose(fzfPipe);
