@@ -60,14 +60,13 @@ void writeRecentProjects()
 {
     ofstream writeFile;
     writeFile.open(recentPath, ios::out);
+
     if (writeFile.is_open())
     {
-        for (const auto &filePath : filePaths)
+        writeFile<<filePaths.back()<<endl;
+        for (auto it = filePaths.begin(); it != filePaths.end() -1; it++)
         {
-            if (!filePath.empty())
-            {
-                writeFile << filePath + "\n";
-            }
+            writeFile << *it << endl;
         }
     }
 }
@@ -96,6 +95,7 @@ void addToVector(int index, string selectedPath)
     if (index == -1)
     {
         filePaths.push_back(selectedPath);
+        return;
     }
     filePaths.erase(filePaths.begin() + index);
     filePaths.push_back(selectedPath);
@@ -169,8 +169,7 @@ int main(int argc, char *argv[])
     else if (argc == 2 && string(argv[1]) == "-r")
     {
         string selectedPath;
-        // const string listFilesCommand = "tac \"Other Projects\\TermFlow\\recentFile.txt\" ";
-        const string listFilesCommand = "powershell.exe -Command \"Get-Content 'Other Projects\\TermFlow\\recentFile.txt' | ForEach-Object { $_ } | Out-String | fzf\"";
+        const string listFilesCommand = "fzf > \"Other Projects\\TermFlow\\recentFile.txt\" ";
         FILE *fzfPipe = _popen(listFilesCommand.c_str(), "r");
         pipeRead(fzfPipe, selectedPath);
         int closeResult = _pclose(fzfPipe);
