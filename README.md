@@ -1,6 +1,6 @@
 ## Description
 
-This C++ project provides a simple terminal-based code launcher that integrates with the fzf fuzzy finder. The application allows users to quickly navigate and open projects from a specified directory using the Visual Studio Code (code. Additionally, it maintains a list of recently opened projects, displayed at the bottom of the fzf interface for easy access.
+This C++ project provides a simple terminal-based code launcher that integrates with the fzf fuzzy finder. The application allows users to quickly navigate and open projects from a specified directory using the Visual Studio Code. Additionally, it maintains a list of recently opened projects, displayed at the bottom of the fzf interface for easy access.
 
 ## Features
 
