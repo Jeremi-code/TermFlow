@@ -18,15 +18,16 @@ This C++ project provides a simple terminal-based code launcher that integrates 
 
 1. C++ Standard Library
 2. fzf (needs to be installed separately)
-3. fzf can be installed from scoop (command line package manager ) 
+3. fzf can be installed from scoop (command line package manager )
 
 ## Instructions
 
 1. Install scoop by using iwr -useb get.scoop.sh | iex command
-2. Install fzf from scoop using scoop install fzf 
-3. Run the executable without any arguments to interactively select a project using fzf.
-4. Use the -r flag to open a project from the recent projects list.
-5. Make sure you create a file and adjust the directory of the file in the code.
-6. Compile the source code using a C++ compiler.
-7. Make sure the fzf utility is installed on your system.
-8. Run the executable to launch projects interactively.
+2. Install fzf from scoop using scoop install fzf
+3. Clone TermFlow into your computer
+4. Make sure you create a file for storing the recently opened projects and adjust the directory of the file in the code
+5. Compile the source code with c++ compiler with the favourite name of yours
+6. Add the directory of the compiled file in enviornment variable
+7. Run the executable with the name of the compiled file without any arguments to interactively select a project using fzf
+8. Use the -r flag to open a project from the recent projects list
+
