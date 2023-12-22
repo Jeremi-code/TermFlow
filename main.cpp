@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
-#include<cstring>
+#include <cstring>
 #include <direct.h>
 #include <fstream>
 
@@ -64,8 +64,8 @@ void writeRecentProjects()
 
     if (writeFile.is_open())
     {
-        writeFile<<filePaths.back()<<endl;
-        for (auto it = filePaths.begin(); it != filePaths.end() -1; it++)
+        writeFile << filePaths.back() << endl;
+        for (auto it = filePaths.begin(); it != filePaths.end() - 1; it++)
         {
             writeFile << *it << endl;
         }
