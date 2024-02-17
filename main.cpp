@@ -113,7 +113,7 @@ void insertFilePaths(string selectedPath)
         }
         else
         {
-            index = 0;
+            index = 9;
             addToVector(index, selectedPath);
         }
     }
